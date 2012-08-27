@@ -1,0 +1,28 @@
+авг 25, 2012 5:50:49 PM gui.FormCalcPlate amountMaket
+INFO: Вошли в расчёт стоимости макета
+авг 25, 2012 5:50:49 PM gui.FormCalcPlate amountAmortization
+INFO: Вошли в расчёт стоимости амортизации оборудования
+авг 25, 2012 5:50:49 PM gui.FormCalcPlate amountAmortization
+INFO: Рабочих часов в году 1986
+авг 25, 2012 5:50:49 PM gui.FormCalcPlate amountAmortization
+INFO: planWorkTimeDesigner 15
+авг 25, 2012 5:50:49 PM gui.FormCalcPlate amountWorkers
+INFO: Вошли в расчёт стоимости работы работников
+авг 25, 2012 5:50:49 PM gui.FormCalcPlate amountWorkers
+INFO: Рабочих часов 184
+авг 25, 2012 5:50:49 PM gui.FormCalcPlate amountWorkers
+INFO: planWorkTimeWorkers 24
+авг 25, 2012 5:50:49 PM gui.FormCalcPlate amountWorkers
+INFO: salaryWorkers 20000.00
+авг 25, 2012 5:50:49 PM gui.FormCalcPlate amountWorkers
+INFO: countWorkers 2
+авг 25, 2012 5:50:49 PM gui.FormCalcPlate amountWorkers
+INFO: amountWorkers 86.96
+авг 25, 2012 5:50:49 PM gui.FormCalcPlate amountAmortization
+INFO: Вошли в расчёт стоимости амортизации оборудования
+авг 25, 2012 5:50:49 PM gui.FormCalcPlate amountAmortization
+INFO: Рабочих часов в году 1986
+авг 25, 2012 5:50:49 PM gui.FormCalcPlate amountAmortization
+INFO: planWorkTimeDesigner 15
+авг 25, 2012 5:50:49 PM gui.MainFrame jMenuItem2ActionPerformed
+INFO: Запущен расчёт стоимости табличек ПВХ
