@@ -43,7 +43,7 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
     private BigDecimal tax = new BigDecimal("0.07");
     private BigDecimal amortizationPeriodComputer = new BigDecimal("3.00");
     private BigDecimal rent = new BigDecimal("20000.00");
-    private BigDecimal amountBasis, amountCoat, amountWorkers, resMaterial, resSum, amountAmortization, amountAmortizationComputer, amountTax;
+    private BigDecimal amountBasis, amountCoat, amountWorkers, resMaterial, resSum, amountAmortization, amountAmortizationComputer, amountTax, amountRent, timeRent;
     private int month;
     public int[] workHours = new int[] { 128, 159, 167, 167, 167, 159, 176, 184, 160, 184, 168, 167 };
     /**
