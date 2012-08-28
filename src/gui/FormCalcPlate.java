@@ -43,7 +43,8 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
     private BigDecimal tax = new BigDecimal("0.07");
     private BigDecimal amortizationPeriodComputer = new BigDecimal("3.00");
     private BigDecimal rent = new BigDecimal("20000.00");
-    private BigDecimal amountBasis, amountCoat, amountWorkers, resMaterial, resSum, amountAmortization, amountAmortizationComputer, amountTax, amountRent, timeRent;
+    private BigDecimal profit = new BigDecimal("30.00");
+    private BigDecimal amountBasis, amountCoat, amountWorkers, resMaterial, resSum, amountAmortization, amountAmortizationComputer, amountTax, amountRent, timeRent, cost, amountProfit;
     private int month;
     public int[] workHours = new int[] { 128, 159, 167, 167, 167, 159, 176, 184, 160, 184, 168, 167 };
     /**
@@ -178,16 +179,16 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         amountRentField = new javax.swing.JFormattedTextField();
-        jFormattedTextField4 = new javax.swing.JFormattedTextField();
+        costField = new javax.swing.JFormattedTextField();
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
-        jFormattedTextField5 = new javax.swing.JFormattedTextField();
+        profitField = new javax.swing.JFormattedTextField();
         TaxField = new javax.swing.JFormattedTextField();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         amountTaxField = new javax.swing.JFormattedTextField();
         jLabel28 = new javax.swing.JLabel();
-        jFormattedTextField7 = new javax.swing.JFormattedTextField();
+        amountProfitField = new javax.swing.JFormattedTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -629,11 +630,16 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jFormattedTextField4.setEditable(false);
+        costField.setValue(cost);
+        costField.setColumns(10);
+        costField.setEditable(false);
 
         jLabel24.setText("Итого себестоимость:");
 
         jLabel25.setText("Прибыль, %:");
+
+        profitField.setValue(profit);
+        profitField.setColumns(10);
 
         TaxField.setValue(tax);
         TaxField.setColumns(10);
@@ -648,7 +654,9 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
 
         jLabel28.setText("Итого прибыль:");
 
-        jFormattedTextField7.setEditable(false);
+        amountProfitField.setValue(amountProfit);
+        amountProfitField.setColumns(10);
+        amountProfitField.setEditable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -739,7 +747,7 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(resSumField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(costField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(5, 5, 5)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel25)
@@ -748,11 +756,11 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(amountTaxField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jFormattedTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(profitField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(59, 59, 59)
                                         .addComponent(jLabel28)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jFormattedTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                        .addComponent(amountProfitField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addContainerGap(112, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -819,12 +827,12 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(costField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel24)
                     .addComponent(jLabel25)
-                    .addComponent(jFormattedTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(profitField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel28)
-                    .addComponent(jFormattedTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(amountProfitField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TaxField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1056,10 +1064,12 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
     private javax.swing.JFormattedTextField amountBasisField;
     private javax.swing.JFormattedTextField amountCoatField;
     private javax.swing.JFormattedTextField amountMaketField;
+    private javax.swing.JFormattedTextField amountProfitField;
     private javax.swing.JFormattedTextField amountRentField;
     private javax.swing.JFormattedTextField amountTaxField;
     private javax.swing.JFormattedTextField amountWorkersField;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JFormattedTextField costField;
     private javax.swing.JFormattedTextField countPlatesField;
     private javax.swing.JFormattedTextField countWorkersField;
     private datechooser.beans.DateChooserCombo dateChooserCombo1;
@@ -1069,9 +1079,6 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
     private javax.swing.JFormattedTextField heightField;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
-    private javax.swing.JFormattedTextField jFormattedTextField4;
-    private javax.swing.JFormattedTextField jFormattedTextField5;
-    private javax.swing.JFormattedTextField jFormattedTextField7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1112,6 +1119,7 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
     private javax.swing.JFormattedTextField planWorkTimeWorkersField;
     private javax.swing.JFormattedTextField priceBasisField;
     private javax.swing.JFormattedTextField priceCoatField;
+    private javax.swing.JFormattedTextField profitField;
     private javax.swing.JFormattedTextField rentField;
     private javax.swing.JFormattedTextField resSumField;
     private javax.swing.JFormattedTextField salaryDesignerField;
