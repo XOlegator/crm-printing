@@ -141,7 +141,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="TaxField" min="-2" pref="50" max="-2" attributes="0"/>
+                                      <Component id="taxField" min="-2" pref="50" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -265,7 +265,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="TaxField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="taxField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel26" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel27" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="amountTaxField" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -351,12 +351,18 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="amountBasisField">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField()"/>
         <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="amountBasisField.setValue(amountBasis);&#xa;amountBasisField.setColumns(10);&#xa;amountBasisField.addPropertyChangeListener(&quot;value&quot;, this);"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="amountCoatField">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField()"/>
         <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="amountCoatField.setValue(amountCoat);&#xa;amountCoatField.setColumns(10);&#xa;amountCoatField.addPropertyChangeListener(&quot;value&quot;, this);"/>
@@ -569,7 +575,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="amountMaketFieldActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="amountMaketField.setValue(amountMaket);&#xa;amountMaketField.setColumns(10);&#xa;//amountMaketField.addPropertyChangeListener(&quot;value&quot;, this);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="amountMaketField.setValue(amountMaket);&#xa;amountMaketField.setColumns(10);&#xa;amountMaketField.addPropertyChangeListener(&quot;value&quot;, this);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel14">
@@ -662,7 +668,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="planWorkTimeWorkersFieldActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="planWorkTimeWorkersField.setValue(planWorkTimeWorkers);&#xa;planWorkTimeWorkersField.setColumns(10);&#xa;//planWorkTimeWorkersField.addPropertyChangeListener(&quot;value&quot;, this);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="planWorkTimeWorkersField.setValue(planWorkTimeWorkers);&#xa;planWorkTimeWorkersField.setColumns(10);&#xa;planWorkTimeWorkersField.addPropertyChangeListener(&quot;value&quot;, this);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel15">
@@ -688,7 +694,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="countWorkersFieldActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="countWorkersField.setValue(countWorkers);&#xa;countWorkersField.setColumns(10);&#xa;//countWorkersField.addPropertyChangeListener(&quot;value&quot;, this);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="countWorkersField.setValue(countWorkers);&#xa;countWorkersField.setColumns(10);&#xa;countWorkersField.addPropertyChangeListener(&quot;value&quot;, this);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel17">
@@ -701,7 +707,7 @@
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="amountWorkersField.setValue(amountWorkers);&#xa;amountWorkersField.setColumns(10);&#xa;//amountWorkersField.addPropertyChangeListener(&quot;value&quot;, this);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="amountWorkersField.setValue(amountWorkers);&#xa;amountWorkersField.setColumns(10);&#xa;amountWorkersField.addPropertyChangeListener(&quot;value&quot;, this);"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -825,7 +831,7 @@
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="amountAmortizationField.setValue(amountAmortization);&#xa;amountAmortizationField.setColumns(10);&#xa;//amountAmortizationField.addPropertyChangeListener(&quot;value&quot;, this);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="amountAmortizationField.setValue(amountAmortization);&#xa;amountAmortizationField.setColumns(10);&#xa;amountAmortizationField.addPropertyChangeListener(&quot;value&quot;, this);"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -914,7 +920,7 @@
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField()"/>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="amountRentField.setValue(amountRent);&#xa;amountRentField.setColumns(10);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="amountRentField.setValue(amountRent);&#xa;amountRentField.setColumns(10);&#xa;amountRentField.addPropertyChangeListener(&quot;value&quot;, this);"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -944,10 +950,10 @@
         <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="profitField.setValue(profit);&#xa;profitField.setColumns(10);"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="TaxField">
+    <Component class="javax.swing.JFormattedTextField" name="taxField">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField()"/>
-        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="TaxField.setValue(tax);&#xa;TaxField.setColumns(10);"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="taxField.setValue(tax);&#xa;taxField.setColumns(10);"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel26">

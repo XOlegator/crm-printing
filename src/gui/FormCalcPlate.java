@@ -44,7 +44,18 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
     private BigDecimal amortizationPeriodComputer = new BigDecimal("3.00");
     private BigDecimal rent = new BigDecimal("20000.00");
     private BigDecimal profit = new BigDecimal("30.00");
-    private BigDecimal amountBasis, amountCoat, amountWorkers, resMaterial, resSum, amountAmortization, amountAmortizationComputer, amountTax, amountRent, timeRent, cost, amountProfit;
+    private BigDecimal amountBasis = new BigDecimal("0.00");
+    private BigDecimal amountCoat = new BigDecimal("0.00");
+    private BigDecimal amountWorkers = new BigDecimal("0.00");
+    private BigDecimal resMaterial = new BigDecimal("0.00"); 
+    private BigDecimal resSum = new BigDecimal("0.00");
+    private BigDecimal amountAmortization = new BigDecimal("0.00"); 
+    private BigDecimal amountAmortizationComputer = new BigDecimal("0.00");
+    private BigDecimal amountTax = new BigDecimal("0.00");
+    private BigDecimal amountRent = new BigDecimal("0.00"); 
+    private BigDecimal timeRent = new BigDecimal("0.00");
+    private BigDecimal cost = new BigDecimal("0.00"); 
+    private BigDecimal amountProfit = new BigDecimal("0.00");
     private int month;
     public int[] workHours = new int[] { 128, 159, 167, 167, 167, 159, 176, 184, 160, 184, 168, 167 };
     /**
@@ -68,11 +79,15 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
             widthPlate = ((Number)widthField.getValue()).intValue();
             int heightPlateI = ((Number)heightField.getValue()).intValue();
             countWorkers(widthPlate, heightPlateI);
+            amountBasis((new BigDecimal (priceBasisField.getValue().toString())), (new BigDecimal (delivBasisField.getValue().toString())), ((Number)sheetWidthField.getValue()).intValue(), ((Number)sheetHeightField.getValue()).intValue(), ((Number)widthField.getValue()).intValue(), ((Number)heightField.getValue()).intValue(), ((Number)countPlatesField.getValue()).intValue());
+            amountCoat((new BigDecimal (priceCoatField.getValue().toString())), (new BigDecimal (delivCoatField.getValue().toString())), ((Number)widthField.getValue()).intValue(), ((Number)heightField.getValue()).intValue(), ((Number)countPlatesField.getValue()).intValue());
         } else if (source == heightField) {
             log.info("Изменилась длина");
             heightPlate = ((Number)heightField.getValue()).intValue();
             int widthPlateI = ((Number)widthField.getValue()).intValue();
             countWorkers(widthPlateI, heightPlate);
+            amountBasis((new BigDecimal (priceBasisField.getValue().toString())), (new BigDecimal (delivBasisField.getValue().toString())), ((Number)sheetWidthField.getValue()).intValue(), ((Number)sheetHeightField.getValue()).intValue(), ((Number)widthField.getValue()).intValue(), ((Number)heightField.getValue()).intValue(), ((Number)countPlatesField.getValue()).intValue());
+            amountCoat((new BigDecimal (priceCoatField.getValue().toString())), (new BigDecimal (delivCoatField.getValue().toString())), ((Number)widthField.getValue()).intValue(), ((Number)heightField.getValue()).intValue(), ((Number)countPlatesField.getValue()).intValue());
         } else if (source == delivBasisField) {
             delivBasis = (new BigDecimal (delivBasisField.getValue().toString()));
         } else if (source == delivCoatField) {
@@ -87,19 +102,21 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
             priceCoat = (new BigDecimal (priceCoatField.getValue().toString()));
         } else if (source == countPlatesField) {
             countPlates = ((Number)countPlatesField.getValue()).intValue();
-        } else if (source == amountBasisField) {
-            amountBasis = (new BigDecimal (amountBasisField.getValue().toString()));
-        } else if (source == amountCoatField) {
-            amountCoat = (new BigDecimal (amountCoatField.getValue().toString()));
+            amountBasis((new BigDecimal (priceBasisField.getValue().toString())), (new BigDecimal (delivBasisField.getValue().toString())), ((Number)sheetWidthField.getValue()).intValue(), ((Number)sheetHeightField.getValue()).intValue(), ((Number)widthField.getValue()).intValue(), ((Number)heightField.getValue()).intValue(), countPlates);
+            amountCoat((new BigDecimal (priceCoatField.getValue().toString())), (new BigDecimal (delivCoatField.getValue().toString())), ((Number)widthField.getValue()).intValue(), ((Number)heightField.getValue()).intValue(), countPlates);
+            planWorkTimeWorkers(((Number)widthField.getValue()).intValue(), ((Number)heightField.getValue()).intValue(), ((Number)countPlatesField.getValue()).intValue());
+            doPerform();
+        } else if (source == countWorkersField) {
+            BigDecimal countWorkers = new BigDecimal (countWorkersField.getValue().toString());
+            amountWorkers(new BigDecimal (planWorkTimeWorkersField.getValue().toString()), new BigDecimal (salaryWorkersField.getValue().toString()), countWorkers);
+        } else if (source == planWorkTimeWorkersField) {
+            BigDecimal planWorkTimeWorkersBD = new BigDecimal (planWorkTimeWorkersField.getValue().toString());
+            amountWorkers(planWorkTimeWorkersBD, new BigDecimal (salaryWorkersField.getValue().toString()), new BigDecimal (countWorkersField.getValue().toString()));
+        } else if (source == salaryWorkersField) {
+            BigDecimal salaryeWorkersBD = new BigDecimal (salaryWorkersField.getValue().toString());
+            amountWorkers(new BigDecimal (planWorkTimeWorkersField.getValue().toString()), salaryeWorkersBD, new BigDecimal (countWorkersField.getValue().toString()));
         }
-        int counPlatesFromSheet = Math.max((int)(sheetHeight/widthPlate*sheetWidth/heightPlate), (int)(sheetWidth/widthPlate*sheetHeight/heightPlate));
-        amountBasis = (priceBasis.add(delivBasis)).divide(new BigDecimal (counPlatesFromSheet), 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal (countPlates));
-        amountBasisField.setValue(amountBasis);
-        amountCoat = (priceCoat.add(delivCoat)).divide(new BigDecimal (counPlatesFromSheet), 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal (countPlates));
-        amountCoatField.setValue(amountCoat);
-        resMaterial = amountBasis.add(amountCoat);
-        resSum = resMaterial.add(new BigDecimal (amountMaketField.getValue().toString())).add(new BigDecimal (amountWorkersField.getValue().toString()));
-        resSumField.setValue(resSum);
+        cost((new BigDecimal (amountBasisField.getValue().toString())), (new BigDecimal (amountCoatField.getValue().toString())), (new BigDecimal (amountMaketField.getValue().toString())), (new BigDecimal (amountWorkersField.getValue().toString())), (new BigDecimal (amountAmortizationField.getValue().toString())), (new BigDecimal (amountRentField.getValue().toString())), ((Number)countPlatesField.getValue()).intValue());
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -183,7 +200,7 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         profitField = new javax.swing.JFormattedTextField();
-        TaxField = new javax.swing.JFormattedTextField();
+        taxField = new javax.swing.JFormattedTextField();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         amountTaxField = new javax.swing.JFormattedTextField();
@@ -257,10 +274,12 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
         amountBasisField.setValue(amountBasis);
         amountBasisField.setColumns(10);
         amountBasisField.addPropertyChangeListener("value", this);
+        amountBasisField.setEditable(false);
 
         amountCoatField.setValue(amountCoat);
         amountCoatField.setColumns(10);
         amountCoatField.addPropertyChangeListener("value", this);
+        amountCoatField.setEditable(false);
 
         jLabel1.setText("Количество");
 
@@ -347,7 +366,7 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
 
         amountMaketField.setValue(amountMaket);
         amountMaketField.setColumns(10);
-        //amountMaketField.addPropertyChangeListener("value", this);
+        amountMaketField.addPropertyChangeListener("value", this);
         amountMaketField.setEditable(false);
         amountMaketField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -417,7 +436,7 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
 
         planWorkTimeWorkersField.setValue(planWorkTimeWorkers);
         planWorkTimeWorkersField.setColumns(10);
-        //planWorkTimeWorkersField.addPropertyChangeListener("value", this);
+        planWorkTimeWorkersField.addPropertyChangeListener("value", this);
         planWorkTimeWorkersField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 planWorkTimeWorkersFieldActionPerformed(evt);
@@ -439,7 +458,7 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
 
         countWorkersField.setValue(countWorkers);
         countWorkersField.setColumns(10);
-        //countWorkersField.addPropertyChangeListener("value", this);
+        countWorkersField.addPropertyChangeListener("value", this);
         countWorkersField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 countWorkersFieldActionPerformed(evt);
@@ -450,7 +469,7 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
 
         amountWorkersField.setValue(amountWorkers);
         amountWorkersField.setColumns(10);
-        //amountWorkersField.addPropertyChangeListener("value", this);
+        amountWorkersField.addPropertyChangeListener("value", this);
         amountWorkersField.setEditable(false);
 
         javax.swing.GroupLayout workPanelLayout = new javax.swing.GroupLayout(workPanel);
@@ -546,7 +565,7 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
 
         amountAmortizationField.setValue(amountAmortization);
         amountAmortizationField.setColumns(10);
-        //amountAmortizationField.addPropertyChangeListener("value", this);
+        amountAmortizationField.addPropertyChangeListener("value", this);
         amountAmortizationField.setEditable(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -594,6 +613,7 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
 
         amountRentField.setValue(amountRent);
         amountRentField.setColumns(10);
+        amountRentField.addPropertyChangeListener("value", this);
         amountRentField.setEditable(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -641,8 +661,8 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
         profitField.setValue(profit);
         profitField.setColumns(10);
 
-        TaxField.setValue(tax);
-        TaxField.setColumns(10);
+        taxField.setValue(tax);
+        taxField.setColumns(10);
 
         jLabel26.setText("Налоговый коэффициент:");
 
@@ -739,7 +759,7 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel26)
                                         .addGap(18, 18, 18)
-                                        .addComponent(TaxField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(taxField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel24)
@@ -835,7 +855,7 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
                     .addComponent(amountProfitField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TaxField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(taxField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel26)
                     .addComponent(jLabel27)
                     .addComponent(amountTaxField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -879,9 +899,42 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
             countWorkersField.setValue(3);
             jOptionPane1.showMessageDialog(null, "Такого размера стенды с самоклейкой мы не делаем!", "Недопустимая продукция", JOptionPane.ERROR_MESSAGE);
         }
-        BigDecimal planWorkTimeWorkersBD = (new BigDecimal (widthPlate)).multiply((new BigDecimal (heightPlate))).divide(new BigDecimal ("1000000.00"), 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal ("30.00"));
-        planWorkTimeWorkersField.setValue(planWorkTimeWorkersBD.setScale(0, BigDecimal.ROUND_HALF_UP));
+        planWorkTimeWorkers(((Number)widthField.getValue()).intValue(), ((Number)heightField.getValue()).intValue(), ((Number)countPlatesField.getValue()).intValue());
         amountWorkers(new BigDecimal (planWorkTimeWorkersField.getValue().toString()), new BigDecimal (salaryWorkersField.getValue().toString()), new BigDecimal (countWorkersField.getValue().toString()));
+    }
+    
+    private void planWorkTimeWorkers(int widthPlate, int heightPlate, int countPlates) {
+        log.info("Вошли в расчёт времени работы одного работника");
+        BigDecimal planWorkTimeWorkersBD = (new BigDecimal (widthPlate)).multiply((new BigDecimal (heightPlate))).divide(new BigDecimal ("1000000.00"), 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal ("30.00")).multiply(new BigDecimal (countPlates)).setScale(0, BigDecimal.ROUND_HALF_UP);
+        planWorkTimeWorkersField.setValue(planWorkTimeWorkersBD);
+        amountWorkers(new BigDecimal (planWorkTimeWorkersField.getValue().toString()), new BigDecimal (salaryWorkersField.getValue().toString()), new BigDecimal (countWorkersField.getValue().toString()));
+    }
+    
+    private void planWorkTimeDesigner(String typeWork, int countPlates) {
+        log.info("Вошли в расчёт времени работы дизайнера");
+        log.info("typeWork=" + typeWork);
+        int planWorkTimeDesignerBD = 0;
+        if (typeWork == "Макет заказчика") {
+                planWorkTimeDesignerBD = countPlates * 5;
+            } else if (typeWork == "Разработка макета") { 
+                planWorkTimeDesignerBD = countPlates * 40;
+            }
+        workTimeDesignerField.setValue(planWorkTimeDesignerBD);
+        amountMaket(new BigDecimal (workTimeDesignerField.getValue().toString()), new BigDecimal (salaryDesignerField.getValue().toString()));
+    }
+    
+    private void amountBasis(BigDecimal priceBasis, BigDecimal delivBasis, int sheetWidth, int sheetHeight, int widthPlate, int heightPlate, int countPlates) {
+        log.info("Вошли в расчёт стоимости материала основы");
+        int countPlatesFromSheet = Math.max((int)(sheetHeight/widthPlate*sheetWidth/heightPlate), (int)(sheetWidth/widthPlate*sheetHeight/heightPlate));
+        amountBasis = (priceBasis.add(delivBasis)).divide(new BigDecimal (countPlatesFromSheet), 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal (countPlates));
+        amountBasisField.setValue(amountBasis);
+    }
+    
+    private void amountCoat(BigDecimal priceCoat, BigDecimal delivCoat, int widthPlate, int heightPlate, int countPlates) {
+        log.info("Вошли в расчёт стоимости материала покрытия");
+        BigDecimal squarePlates = ((new BigDecimal (widthPlate)).multiply(new BigDecimal (heightPlate)).divide((new BigDecimal ("1000000.00")), 2, BigDecimal.ROUND_HALF_UP));
+        amountCoat = (priceCoat.add(delivCoat)).multiply(squarePlates).multiply(new BigDecimal (countPlates));
+        amountCoatField.setValue(amountCoat);
     }
     
     private void amountMaket(BigDecimal workTimeDesigner, BigDecimal salaryDesigner) {
@@ -894,28 +947,65 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
             amountMaketField.setValue(amountMaket);
         }
         amountAmortization(new BigDecimal (workTimeDesignerField.getValue().toString()));
+        timeRent(new BigDecimal (workTimeDesignerField.getValue().toString()), new BigDecimal (planWorkTimeWorkersField.getValue().toString()));
+        amountRent(new BigDecimal (timeRentField.getValue().toString()), new BigDecimal (rentField.getValue().toString()));
     }
     
     private void amountWorkers(BigDecimal planWorkTimeWorkers, BigDecimal salaryWorkers, BigDecimal countWorkers) {
         log.info("Вошли в расчёт стоимости работы работников");
         BigDecimal workHoursBD = new BigDecimal (workHours[month-1]);
-        log.info("Рабочих часов " + workHoursBD);
-        log.info("planWorkTimeWorkers " + planWorkTimeWorkers);
-        log.info("salaryWorkers " + salaryWorkers);
-        log.info("countWorkers " + countWorkers);
         amountWorkers = ((planWorkTimeWorkers.divide(new BigDecimal("60.00"), 2, BigDecimal.ROUND_HALF_UP)).multiply(salaryWorkers.divide(workHoursBD, 2, BigDecimal.ROUND_HALF_UP))).multiply(countWorkers).setScale(2, BigDecimal.ROUND_HALF_UP);
-        log.info("amountWorkers " + amountWorkers);
         amountWorkersField.setValue(amountWorkers);
+        timeRent(new BigDecimal (workTimeDesignerField.getValue().toString()), new BigDecimal (planWorkTimeWorkersField.getValue().toString()));
+        amountRent(new BigDecimal (timeRentField.getValue().toString()), new BigDecimal (rentField.getValue().toString()));
     }
     
     private void amountAmortization(BigDecimal planWorkTimeDesigner) {
         log.info("Вошли в расчёт стоимости амортизации оборудования");
         BigDecimal yearWorkHoursBD = new BigDecimal (yearWorkHours);
-        log.info("Рабочих часов в году " + yearWorkHoursBD);
-        log.info("planWorkTimeDesigner " + planWorkTimeDesigner);
         amountAmortizationComputer = costComputer.divide((amortizationPeriodComputer.multiply(yearWorkHoursBD)), 2, BigDecimal.ROUND_HALF_UP).multiply(planWorkTimeDesigner).setScale(2, BigDecimal.ROUND_HALF_UP);
         amountAmortizationComputerField.setValue(amountAmortizationComputer);
         amountAmortizationField.setValue(amountAmortizationComputer);
+    }
+    
+    private void timeRent(BigDecimal timeWork, BigDecimal timeDesigner) {
+        log.info("Вошли в расчёт стоимости времени аренды");
+        timeRent = timeWork.add(timeDesigner);
+        timeRentField.setValue(timeRent);
+    }
+    
+    private void amountRent(BigDecimal timeRent, BigDecimal rent) {
+        log.info("Вошли в расчёт стоимости аренды");
+        BigDecimal workHoursBD = new BigDecimal (workHours[month-1]);
+        amountRent = (rent.divide(workHoursBD, 2, BigDecimal.ROUND_HALF_UP)).multiply(timeRent.divide(new BigDecimal ("60.00"), 2, BigDecimal.ROUND_HALF_UP)).setScale(2, BigDecimal.ROUND_HALF_UP);
+        amountRentField.setValue(amountRent);
+    }
+    
+    public void cost(BigDecimal amountBasis, BigDecimal amountCoat, BigDecimal amountMaket, BigDecimal amountWorkers, BigDecimal amountAmortization, BigDecimal amountRent, int countPlates) {
+        log.info("Вошли в расчёт себестоимости");
+        cost = (amountBasis.add(amountCoat).add(amountMaket).add(amountWorkers).add(amountAmortization).add(amountRent)).multiply(new BigDecimal (countPlates));
+        costField.setValue(cost);
+        amountProfit(cost, new BigDecimal (profitField.getValue().toString()));
+        amountTax(cost, new BigDecimal (profitField.getValue().toString()), new BigDecimal (taxField.getValue().toString()));
+        resSum(cost, new BigDecimal (amountProfitField.getValue().toString()), new BigDecimal (amountTaxField.getValue().toString()));
+    }
+    
+    private void amountProfit(BigDecimal cost, BigDecimal profit) {
+        log.info("Вошли в расчёт прибыли");
+        amountProfit = cost.multiply(profit).divide(new BigDecimal ("100.00"), 2, BigDecimal.ROUND_HALF_UP).setScale(2, BigDecimal.ROUND_HALF_UP);
+        amountProfitField.setValue(amountProfit);
+    }
+    
+    private void amountTax(BigDecimal cost, BigDecimal profit, BigDecimal tax) {
+        log.info("Вошли в предварительный расчёт налога");
+        amountTax = cost.add(profit).multiply(tax).setScale(2, BigDecimal.ROUND_HALF_UP);
+        amountTaxField.setValue(amountTax);
+    }
+    
+    private void resSum(BigDecimal cost, BigDecimal amountProfit, BigDecimal amountTax) {
+        log.info("Вошли в расчёт общей стоимости");
+        resSum = cost.add(amountProfit).add(amountTax);
+        resSumField.setValue(resSum);
     }
     
     private void delivCoatFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delivCoatFieldActionPerformed
@@ -970,9 +1060,15 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
     }//GEN-LAST:event_countWorkersFieldActionPerformed
 
     private void SubWindowListener(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_SubWindowListener
+        amountBasis((new BigDecimal (priceBasisField.getValue().toString())), (new BigDecimal (delivBasisField.getValue().toString())), ((Number)sheetWidthField.getValue()).intValue(), ((Number)sheetHeightField.getValue()).intValue(), ((Number)widthField.getValue()).intValue(), ((Number)heightField.getValue()).intValue(), ((Number)countPlatesField.getValue()).intValue());
+        amountCoat((new BigDecimal (priceCoatField.getValue().toString())), (new BigDecimal (delivCoatField.getValue().toString())), ((Number)widthField.getValue()).intValue(), ((Number)heightField.getValue()).intValue(), ((Number)countPlatesField.getValue()).intValue());
+        planWorkTimeWorkers(((Number)widthField.getValue()).intValue(), ((Number)heightField.getValue()).intValue(), ((Number)countPlatesField.getValue()).intValue());
+        doPerform();
         amountMaket(new BigDecimal (workTimeDesignerField.getValue().toString()), new BigDecimal (salaryDesignerField.getValue().toString()));
         amountWorkers(new BigDecimal (planWorkTimeWorkersField.getValue().toString()), new BigDecimal (salaryWorkersField.getValue().toString()), new BigDecimal (countWorkersField.getValue().toString()));
         amountAmortization(new BigDecimal (workTimeDesignerField.getValue().toString()));
+        amountRent(new BigDecimal (timeRentField.getValue().toString()), new BigDecimal (rentField.getValue().toString()));
+        cost((new BigDecimal (amountBasisField.getValue().toString())), (new BigDecimal (amountCoatField.getValue().toString())), (new BigDecimal (amountMaketField.getValue().toString())), (new BigDecimal (amountWorkersField.getValue().toString())), (new BigDecimal (amountAmortizationField.getValue().toString())), (new BigDecimal (amountRentField.getValue().toString())), ((Number)countPlatesField.getValue()).intValue());
     }//GEN-LAST:event_SubWindowListener
     private void calcWorkHours() {
         month = dateChooserCombo1.getSelectedDate().get(2) + 1;
@@ -1022,8 +1118,9 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
                 descriptionDesignerLabel.setEnabled(true);
                 descriptionDesignerLabel.setText("Нашему дизайнеру нужно лишь проверить макет");
                 workTimeDesignerField.setEnabled(true);
-                workTimeDesigner = 15;
-                workTimeDesignerField.setValue(workTimeDesigner);
+                //workTimeDesigner = ((Number)countPlatesField.getValue()).intValue() * 5;
+                //workTimeDesignerField.setValue(workTimeDesigner);
+                planWorkTimeDesigner(button.getText().toString(), ((Number)countPlatesField.getValue()).intValue());
                 salaryDesigner = new BigDecimal("30000.00");
                 salaryDesignerField.setValue(salaryDesigner);
                 log.info("Новое значение зарплаты " + salaryDesigner);
@@ -1046,8 +1143,9 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
                 descriptionDesignerLabel.setEnabled(true);
                 descriptionDesignerLabel.setText("Трудоёмкость макета должен оценить дизайнер");
                 workTimeDesignerField.setEnabled(true);
-                workTimeDesigner = 40;
-                workTimeDesignerField.setValue(workTimeDesigner);
+                //workTimeDesigner = ((Number)countPlatesField.getValue()).intValue() * 40;
+                //workTimeDesignerField.setValue(workTimeDesigner);
+                planWorkTimeDesigner(button.getText().toString(), ((Number)countPlatesField.getValue()).intValue());
                 salaryDesigner = new BigDecimal("30000.00");
                 salaryDesignerField.setValue(salaryDesigner);
                 log.info("Новое значение зарплаты " + salaryDesigner);
@@ -1058,7 +1156,6 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JFormattedTextField TaxField;
     private javax.swing.JFormattedTextField amountAmortizationComputerField;
     private javax.swing.JFormattedTextField amountAmortizationField;
     private javax.swing.JFormattedTextField amountBasisField;
@@ -1127,6 +1224,7 @@ public class FormCalcPlate extends javax.swing.JInternalFrame implements Propert
     private javax.swing.JFormattedTextField salaryWorkersField;
     private javax.swing.JFormattedTextField sheetHeightField;
     private javax.swing.JFormattedTextField sheetWidthField;
+    private javax.swing.JFormattedTextField taxField;
     private javax.swing.JFormattedTextField timeRentField;
     private javax.swing.JFormattedTextField widthField;
     private javax.swing.JPanel workDesignerPanel;
